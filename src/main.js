@@ -4,7 +4,35 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+import MuseUI from 'muse-ui'
+import toastr from 'toastr'
+// import axios from 'axios'
+import 'muse-ui/dist/muse-ui.css'
+import './assets/icon.css'
+
 Vue.config.productionTip = false
+
+Vue.use(MuseUI);
+Vue.prototype.toastr = toastr;
+
+// 基于jquery的消息提示插件
+toastr.options = {
+  "closeButton": true,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "3000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
 
 /* eslint-disable no-new */
 new Vue({
