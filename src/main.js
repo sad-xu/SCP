@@ -6,6 +6,7 @@ import router from './router'
 
 import MuseUI from 'muse-ui'
 import toastr from 'toastr'
+// import marked from 'marked'
 // import axios from 'axios'
 import 'muse-ui/dist/muse-ui.css'
 import './assets/icon.css'
