@@ -1,8 +1,12 @@
 'use strict'
 const path = require('path')
 const utils = require('./utils')
+const glob = require('glob')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+
+const entries = utils.getMultiEntry('./src/modules/**/*.js');
+const chunks = Object.keys(entries);
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -10,9 +14,10 @@ function resolve (dir) {
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
-  entry: {
+  /*entry: {
     app: './src/main.js'
-  },
+  },*/
+  entry: entries,
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',

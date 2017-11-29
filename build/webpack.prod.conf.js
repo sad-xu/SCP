@@ -1,6 +1,7 @@
 'use strict'
 const path = require('path')
 const utils = require('./utils')
+const glob = require('glob')
 const webpack = require('webpack')
 const config = require('../config')
 const merge = require('webpack-merge')
@@ -11,6 +12,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
 const env = require('../config/prod.env')
+
+const entries = utils.getMultiEntry('./src/modules/**/*.js')
+const chunks = Object.keys(entries)
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -57,7 +61,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
+/*    new HtmlWebpackPlugin({
       filename: config.build.index,
       template: 'index.html',
       inject: true,
@@ -70,7 +74,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       },
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
-    }),
+    }),*/
     // keep module.id stable when vender modules does not change
     new webpack.HashedModuleIdsPlugin(),
     // enable scope hoisting
@@ -138,5 +142,19 @@ if (config.build.bundleAnalyzerReport) {
   const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
+
+const pages = utils.getMultiEntry('./src/modules/**/*.html');
+for (let pathname in pages) {
+  let conf = {
+    filename: pathname + '.html',
+    template: pages[pathname],
+    chunks: [pathname, 'vendor', 'manifest'],
+    inject: true,
+    hash: true
+  };
+
+  webpackConfig.plugins.push(new HtmlWebpackPlugin(conf));
+}
+
 
 module.exports = webpackConfig

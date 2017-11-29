@@ -1,5 +1,6 @@
 'use strict'
 const utils = require('./utils')
+const glob = require('glob')
 const webpack = require('webpack')
 const config = require('../config')
 const merge = require('webpack-merge')
@@ -75,3 +76,18 @@ module.exports = new Promise((resolve, reject) => {
     }
   })
 })
+
+const pages = utils.getMultiEntry('./src/modules/**/*.html')
+
+for (let pathname in pages) {
+  let conf = {
+    filename: pathname + '.html',
+    template: pages[pathname],
+    chunks: ['manifest', 'vendor', pathname],
+    inject: true,
+    chunksSortMode: 'dependency'
+  };
+  // !!!!!!!!!!
+  module.exports.plugins.push(new HtmlWebpackPlugin(conf));
+  console.log(conf);
+}

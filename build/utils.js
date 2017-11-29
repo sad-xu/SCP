@@ -4,6 +4,8 @@ const config = require('../config')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const pkg = require('../package.json')
 
+const glob = require('glob')
+
 exports.assetsPath = function (_path) {
   const assetsSubDirectory = process.env.NODE_ENV === 'production'
     ? config.build.assetsSubDirectory
@@ -95,4 +97,23 @@ exports.createNotifierCallback = function () {
       icon: path.join(__dirname, 'logo.png')
     })
   }
+}
+
+// 获取多级入口文件
+exports.getMultiEntry = function(globPath) {
+  let entries = {}, basename, tmp, pathname;
+console.log(globPath)
+
+  glob.sync(globPath).forEach(function(entry) {
+    basename = path.basename(entry, path.extname(entry));
+    if (entry.split('/').length > 4) {
+        tmp = entry.split('/').splice(-3);
+        pathname = tmp.splice(0, 1) + '/' + basename; // 正确输出js和html的路径
+        entries[pathname] = entry;
+      } else {
+        entries[basename] = entry;
+      }
+  });
+  console.log(5,entries)
+  return entries;
 }

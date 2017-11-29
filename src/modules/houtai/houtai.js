@@ -2,14 +2,14 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
+import router from '../../router'
 
 import MuseUI from 'muse-ui'
 import toastr from 'toastr'
 // import marked from 'marked'
 // import axios from 'axios'
 import 'muse-ui/dist/muse-ui.css'
-import './assets/icon.css'
+import '../../assets/icon.css'
 
 Vue.config.productionTip = false
 
