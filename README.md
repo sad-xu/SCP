@@ -2,6 +2,8 @@
 
 > a scp lib
 
+** 一个多（就两个）页面应用 ** 不写了，反正也没人看
+
 ## Build Setup
 
 ``` bash

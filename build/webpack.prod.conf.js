@@ -13,8 +13,8 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
 const env = require('../config/prod.env')
 
-const entries = utils.getMultiEntry('./src/modules/**/*.js')
-const chunks = Object.keys(entries)
+// const entries = utils.getMultiEntry('./src/modules/**/*.js')
+// const chunks = Object.keys(entries)
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -117,7 +117,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         ignore: ['.*']
       }
     ])
-  ]
+  ].concat(utils.htmlPlugin())
 })
 
 if (config.build.productionGzip) {
@@ -143,7 +143,9 @@ if (config.build.bundleAnalyzerReport) {
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
-const pages = utils.getMultiEntry('./src/modules/**/*.html');
+
+//const pages = utils.getMultiEntry('./src/modules/**/*.html');
+/*
 for (let pathname in pages) {
   let conf = {
     filename: pathname + '.html',
@@ -154,7 +156,7 @@ for (let pathname in pages) {
   };
 
   webpackConfig.plugins.push(new HtmlWebpackPlugin(conf));
-}
+}*/
 
 
 module.exports = webpackConfig

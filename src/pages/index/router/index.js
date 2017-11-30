@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import FirstPage from '../modules/index/views/FirstPage'
-import Detail from '../modules/index/views/Detail'
-import About from '../modules/index/views/About'
+import FirstPage from '../views/FirstPage'
+import Detail from '../views/Detail'
+import About from '../views/About'
 
 Vue.use(Router)
 

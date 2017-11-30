@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true }));
 
 // 处理浏览器favicon请求
-app.use(favicon(__dirname + '/src/assets/favicon.ico'));
+app.use(favicon(__dirname + '/src/pages/index/assets/favicon.ico'));
 
 // 设置静态路径
 app.use(express.static('dist'));

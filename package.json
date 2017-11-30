@@ -13,12 +13,11 @@
     "axios": "^0.17.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
-    "jquery": "^3.2.1",
+    "lodash.debounce": "^4.0.8",
     "marked": "^0.3.6",
     "mongoose": "^4.13.4",
     "muse-ui": "^2.1.0",
     "serve-favicon": "^2.4.5",
-    "toastr": "^2.1.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
