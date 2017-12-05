@@ -2,14 +2,14 @@
 	<div class="content">
 		<div class="content-left">
 			<div class="logo">
-				SCP List
+				<img src="../assets/logo.png" width="100%">
 			</div>
-			<mu-float-button icon="add" nackgroundColor @click="addScp"/>
+			<mu-flat-button class="add-button" icon="add" label="新增" primary backgroundColor="#2ee2b9" @click="addScp"/>
 			<mu-list>
-				<mu-list-item v-for="item in scpList" :title="item.name" :key="item.id" @click="setIdChosed(item.id)"></mu-list-item>
+				<mu-list-item v-for="item in scpList" :title="item.id + ' ' + item.name" :key="item.id" @click="setIdChosed(item.id)"></mu-list-item>
 			</mu-list>
 		</div>
-		<detail-scp :id="idChosed"></detail-scp>
+		<detail-scp :id="idChosed" @refreshList="refresh"></detail-scp>
 	</div>
 </template>
 
@@ -17,12 +17,21 @@
 import Detail from './Detail'
 
 export default {
+	created() {
+		this.$http.get('/api/list')
+				.then(res => {
+					this.scpList = res.data;
+				})
+				.catch(err => {
+					console.log(err);
+				});
+	},
 	components: {
 		'detail-scp': Detail
 	},
 	data() {
 		return {
-			scpList: [{id:'001',name:'scp-001 xhc'},{id:'002',name:'scp-002 xhc'},{id:'003',name:'scp-003 喜欢吃'}],
+			scpList: [],
 			idChosed: ''
 		}
 	},
@@ -30,12 +39,21 @@ export default {
 		// 点击增加按钮
 		addScp: function() {
 			this.idChosed = '-1';
-			console.log('addScp ')
 		},
 		// 点击列表各项
 		setIdChosed: function(val) {
 			this.idChosed = val;
 			console.log('setid' + val);
+		},
+		// 刷新
+		refresh: function() {
+			this.$http.get('/api/list')
+				.then(res => {
+					this.scpList = res.data;
+				})
+				.catch(err => {
+					console.log(err);
+				});
 		}
 	}
 }	
@@ -53,6 +71,12 @@ export default {
 	background-color: rgb(225,225,225);
 	margin-bottom: -4000px;
 	padding-bottom: 4000px;
+}
+
+.add-button {
+	display: block;
+	margin: 0 auto;
+	width: 80%;
 }
 
 
