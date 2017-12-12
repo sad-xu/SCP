@@ -77,4 +77,4 @@ var Detector = {
 
 //}
 
-export default Detector;
+export default Detector

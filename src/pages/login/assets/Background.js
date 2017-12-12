@@ -1,14 +1,10 @@
- import THREE from '../assets/AnaglyphEffect'
+ import {THREE} from '../assets/AnaglyphEffect'
  import Detector from '../assets/Detector'
-// var THREE = require('../assets/AnaglyphEffect')
-// var Detector = require('../assets/Detector');
 
-let Background = {
-	start: function() {
-		init();
-		animate();
-	}
-};
+let Background = function(bgDiv) {
+	init(bgDiv);
+	animate();
+}
 
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 var container;
@@ -24,19 +20,28 @@ document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
 
 
-function init() {
+function init(bgDiv) {
 	container = document.createElement( 'div' );
-	document.body.appendChild( container );
+	bgDiv.appendChild( container );
 	camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.01, 100 );
 	camera.position.z = 3;
 	camera.focalLength = 3;
-	var path = "textures/cube/pisa/";
+/*
+	var path = "/imgs/";
 	var format = '.png';
 	var urls = [
 		path + 'px' + format, path + 'nx' + format,
 		path + 'py' + format, path + 'ny' + format,
 		path + 'pz' + format, path + 'nz' + format
+	];*/
+
+	var urls = [
+		require('./imgs/px.png'), require('./imgs/nx.png'),
+		require('./imgs/py.png'), require('./imgs/ny.png'),
+		require('./imgs/pz.png'), require('./imgs/nz.png')
 	];
+
+
 	var textureCube = new THREE.CubeTextureLoader().load( urls );
 	scene = new THREE.Scene();
 	scene.background = textureCube;
@@ -94,4 +99,4 @@ function render() {
 	effect.render( scene, camera );
 }
 
-export default Background
+export {Background}

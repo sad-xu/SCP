@@ -69,8 +69,6 @@ router.get('/list', (req, res) => {
 router.post('/login', (req, res) => {
 	Admin.findOne({name: req.body.name})
 				.then(admin => {
-					console.log('admin.password=' + admin.password);
-					console.log('password=' + req.body.password);
 					if (admin.password === req.body.password) {
 						res.json({err:0})
 					} else {

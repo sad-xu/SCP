@@ -5,8 +5,8 @@
  * @author tschw
  */
 
-import * as THREE from 'three';
-// var THREE = require('three');
+//import * as THREE from 'three';
+ var THREE = require('three');
 
 THREE.AnaglyphEffect = function ( renderer, width, height ) {
 
@@ -154,4 +154,4 @@ THREE.AnaglyphEffect = function ( renderer, width, height ) {
 
 };
 
-export default {THREE};
+export {THREE}

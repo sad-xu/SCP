@@ -1,7 +1,7 @@
 <template lang="html">
 	<div class="wrapper">
 		<!-- 背景 -->
-		<div class="background"></div>
+		<div id="bg" class="background"></div>
 		<!-- 登录框 -->
 		<mu-paper class="login-box" :zDepth="2"> 
 			<mu-text-field hintText="请输入账号" icon="face" v-model="userName"/>
@@ -40,7 +40,7 @@ export default {
 				that.check();
 			}
 		}, false);
-		Background.start(); // 
+		Background(document.getElementById('bg')); // 启动背景
 	},
 	methods: {
 		check: function(){
@@ -80,18 +80,25 @@ export default {
 </script>
 
 <style lang="css">
+	canvas {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100% !important;
+		height: 100% !important;
+	}
+
 	.wrapper {
 		width: 100%;
 		height: 100%;
-		min-width: 900px;
-		min-height: 700px;
+		min-width: 800px;
+		min-height: 600px;
 		position: relative;
 	}
 
 	.background {
 		width: 100%;
 		height: 100%;
-		background: grey;
 	}
 
 	.login-box {
