@@ -31,5 +31,4 @@ app.use('/api', api);
 
 app.listen(3000, () => {
 	console.log('listening port 3000');
-	console.log(__dirname + '/src/pages');
 });

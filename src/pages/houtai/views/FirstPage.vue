@@ -1,5 +1,6 @@
 <template lang="html">
 	<div class="content">
+		<!-- 左侧列表 -->
 		<div class="content-left">
 			<div class="logo">
 				<img src="../assets/logo.png" width="100%">
@@ -8,8 +9,16 @@
 			<mu-list>
 				<mu-list-item v-for="item in scpList" :title="item.id + ' ' + item.name" :key="item.id" @click="setIdChosed(item.id)"></mu-list-item>
 			</mu-list>
+			<mu-raised-button class="logout-button" label="退出登录" icon="cancel" backgroundColor="blueGrey" @click="logout()"/>
 		</div>
+		<!-- 右侧详情 -->
 		<detail-scp :id="idChosed" @refreshList="refresh"></detail-scp>
+		<!-- 登陆中 -->
+		<transition name="loadfade">
+			<div class="loading-wrapper" v-if="status !== 0">
+				<mu-circular-progress :size="90" color="red" />
+			</div>
+	 </transition>
 	</div>
 </template>
 
@@ -17,14 +26,28 @@
 import Detail from './Detail'
 
 export default {
-	created() {
-		this.$http.get('/api/list')
-				.then(res => {
-					this.scpList = res.data;
-				})
-				.catch(err => {
-					console.log(err);
-				});
+	beforeCreate() { // 先验证账号
+		let userName = localStorage.getItem('userName'),
+				passWord = localStorage.getItem('passWord');
+		if (userName === null || passWord === null) {
+			window.location.href = 'login.html';
+		} else {
+			this.$http.post('/api/login', {name:userName,password:passWord})
+								.then(res => {
+									if (res.data.err === 0) {
+										this.userName = userName;
+										this.status = 0;
+									} else {
+										window.location.href = 'login.html'
+									}
+								})
+								.catch(e => {
+									window.location.href = 'login.html';
+								})
+		}
+	},
+	created() { 
+		
 	},
 	components: {
 		'detail-scp': Detail
@@ -32,7 +55,22 @@ export default {
 	data() {
 		return {
 			scpList: [],
-			idChosed: ''
+			idChosed: '',
+			userName: '',
+			status: 1
+		}
+	},
+	watch: {
+		status: function() {
+			if (this.status === 0) {
+				this.$http.get('/api/list')
+				.then(res => {
+					this.scpList = res.data;
+				})
+				.catch(err => {
+					console.log(err);
+				});
+			}
 		}
 	},
 	methods: {
@@ -54,6 +92,12 @@ export default {
 				.catch(err => {
 					console.log(err);
 				});
+		},
+		// 退出登陆
+		logout: function() {
+			localStorage.removeItem('userName');
+			localStorage.removeItem('passWord');
+			window.location.href = 'login.html';
 		}
 	}
 }	
@@ -79,5 +123,31 @@ export default {
 	width: 80%;
 }
 
+.loading-wrapper {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	background-color: grey;
+	z-index: 10;
+}
+
+.loadfade-enter-active, .loadfade-leave-active {
+	transition: opacity .5s;
+}
+.loadfade-enter, .loadfade-leave-to {
+	opacity: 0;
+}
+
+.logout-button {
+	position: fixed;
+	left: 20px;
+	bottom: 25px;
+	width: 150px;
+}
 
 </style>

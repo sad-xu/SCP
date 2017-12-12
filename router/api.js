@@ -1,5 +1,6 @@
 const express = require('express')
 const Scp = require('../models/scp')
+const Admin = require('../models/admin')
 
 const router = express.Router()
 
@@ -61,6 +62,24 @@ router.get('/list', (req, res) => {
 		 .catch(err => {
 		 	res.json(err);
 		 })
+})
+
+
+/********* 登陆页接口 ***********/
+router.post('/login', (req, res) => {
+	Admin.findOne({name: req.body.name})
+				.then(admin => {
+					console.log('admin.password=' + admin.password);
+					console.log('password=' + req.body.password);
+					if (admin.password === req.body.password) {
+						res.json({err:0})
+					} else {
+						res.json({err:1})
+					}
+				})
+				.catch(err => {
+					res.json({err:1})
+				})
 })
 
 module.exports = router;

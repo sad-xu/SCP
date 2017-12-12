@@ -9,7 +9,7 @@ import MuseUI from 'muse-ui'
 // import marked from 'marked'
 // import axios from 'axios'
 import 'muse-ui/dist/muse-ui.css'
-import './assets/icon.css'
+import '../../static/icon.css'
 
 Vue.config.productionTip = false
 
