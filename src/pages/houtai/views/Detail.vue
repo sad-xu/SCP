@@ -43,14 +43,14 @@ export default {
 		console.log('mounted')
 	},
 	props: {
-		id: {
-			type: String
+		numid: {
+			type: Number
 		}
 	},
 	data() {
 		return {
 			levelList: ['Safe','Euclid','Killer'],
-			scpData: {id:'',name:'',level:'',watched:0,content:''},
+			scpData: {id:'',numid:0,name:'',level:'',watched:0,content:''},
 			toast: false,
 			toastMsg: ''
 		}
@@ -62,9 +62,9 @@ export default {
 		}
 	},
 	watch: {
-		id: function() {
-			if (this.id != '-1') {  // 根据id,取数据 
-				this.$http.get(`/api/scp/${this.id}`)
+		numid: function() {
+			if (this.numid > 0) {  // 根据id,取数据 
+				this.$http.get(`/api/scp/${this.numid}`)
 						.then(res => {
 							this.scpData = res.data;
 							console.log(this.scpData)
@@ -73,7 +73,7 @@ export default {
 							console.log(err);
 						})
 			} else {  // 清空
-				this.scpData = {id:'',name:'',level:'',watched:0,content:''}
+				this.clearData()
 			}
 		}
 	},
@@ -86,25 +86,30 @@ export default {
 		saveButton: function() {
 			let saveData = this.scpData;
 			if(saveData.id && saveData.name && saveData.content && saveData.level) {
-				this.$http.post('/api/editscp', this.scpData)
-					.then(res => {
-						console.log(res.data)
-						this.showToast('保存成功');
-						this.$emit('refreshList');
-					})
-					.catch(e => {
-						console.log(e)
-					})
+				if (parseInt(saveData.id) > 0) {
+					this.scpData.numid = parseInt(saveData.id);
+					this.$http.post('/api/editscp', this.scpData)
+						.then(res => {
+							console.log(res.data)
+							this.showToast('保存成功');
+							this.$emit('refreshList');
+						})
+						.catch(e => {
+							console.log(e)
+						})
+					} else {
+						this.showToast('id错误')
+					}
 			} else {
 				this.showToast('项目不完整')
 			}
 		},
 		// 删除
 		removeButton: function() {
-			if (this.scpData.id) {
-				this.$http.delete(`/api/deletescp/${this.scpData.id}`)
+			if (this.scpData.numid) {
+				this.$http.delete(`/api/deletescp/${this.scpData.numid}`)
 						.then(res => {
-							this.scpData = {id:'',name:'',level:'',watched:0,content:''};
+							this.clearData()
 							this.showToast('删除成功');
 							this.$emit('refreshList');
 						})
@@ -128,6 +133,10 @@ export default {
 			if (this.toastTimer) {
 				clearTimeout(this.toastTimer);
 			}
+		},
+		// 清空数据
+		clearData() {
+			this.scpData = {id:'',numid:0,name:'',level:'',watched:0,content:''};
 		}
 	}
 }	

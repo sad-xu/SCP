@@ -7,12 +7,12 @@
 			</div>
 			<mu-flat-button class="add-button" icon="add" label="新增" primary backgroundColor="#2ee2b9" @click="addScp"/>
 			<mu-list>
-				<mu-list-item v-for="item in scpList" :title="item.id + ' ' + item.name" :key="item.id" @click="setIdChosed(item.id)"></mu-list-item>
+				<mu-list-item v-for="item in scpList" :title="item.id + ' ' + item.name" :key="item.id" @click="setIdChosed(item.numid)"></mu-list-item>
 			</mu-list>
 			<mu-raised-button class="logout-button" label="退出登录" icon="cancel" backgroundColor="blueGrey" @click="logout()"/>
 		</div>
 		<!-- 右侧详情 -->
-		<detail-scp :id="idChosed" @refreshList="refresh"></detail-scp>
+		<detail-scp :numid="idChosed" @refreshList="refresh"></detail-scp>
 		<!-- 登陆中 -->
 		<transition name="loadfade">
 			<div class="loading-wrapper" v-if="status !== 0">
@@ -55,7 +55,7 @@ export default {
 	data() {
 		return {
 			scpList: [],
-			idChosed: '',
+			idChosed: 0,
 			userName: '',
 			status: 1
 		}
@@ -76,12 +76,12 @@ export default {
 	methods: {
 		// 点击增加按钮
 		addScp: function() {
-			this.idChosed = '-1';
+			this.idChosed = 0;
 		},
 		// 点击列表各项
 		setIdChosed: function(val) {
 			this.idChosed = val;
-			console.log('setid' + val);
+			console.log('setid' + typeof val);
 		},
 		// 刷新
 		refresh: function() {

@@ -38,13 +38,13 @@ export default {
 			this.open = !this.open;
 		},
 		// 跳转到详情页
-		showDetail(id) {
-			this.$router.push(`/scp/${id}`);
+		showDetail(numid) {
+			this.$router.push(`/scp/${numid}`);
 		},
 		// 随便看看
 		showRenderDetail() {
-			let id = Math.random() * 100;
-			this.showDetail(id)
+			let numid = Math.floor(Math.random() * 100 + 1);
+			this.showDetail(numid)
 		},
 		// 跳转到其他页面
 		jumpTo(where) {

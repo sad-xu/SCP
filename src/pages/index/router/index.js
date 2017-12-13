@@ -14,7 +14,7 @@ export default new Router({
       name: 'FirstPage',
       component: FirstPage
     }, {
-    	path: '/scp/:id',
+    	path: '/scp/:numid',
     	name: 'Detail',
     	component: Detail
     }, {

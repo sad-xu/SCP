@@ -19,12 +19,13 @@ router.post('/addscp', (req, res) => {
 // 修改
 router.post('/editscp', (req, res) => {
 	Scp.findOneAndUpdate(
-		{ id: req.body.id },
+		{ numid: req.body.numid },
 		{
 			id: req.body.id,
 			name: req.body.name,
 			level: req.body.level,
-			content: req.body.content
+			content: req.body.content,
+			numid: req.body.numid
 		}, 
 		{
 			new : true,
@@ -35,18 +36,23 @@ router.post('/editscp', (req, res) => {
 });
 
 // 删除
-router.delete('/deletescp/:id', (req, res) => {
-	let id = req.params.id;
-	Scp.findOneAndRemove({ id : id})
-			.then(scp => res.send(`${scp.id}删除成功`))
+router.delete('/deletescp/:numid', (req, res) => {
+	let numid = req.params.numid;
+	Scp.findOneAndRemove({ numid : numid})
+			.then(scp => res.send(`${scp.numid}删除成功`))
 			.catch(err => res.json(err))
 });
 
 // 根据id获取具体信息
-router.get('/scp/:id', (req, res) => {
-	Scp.findOne({id: req.params.id})
+router.get('/scp/:numid', (req, res) => {
+	Scp.findOne({numid: req.params.numid})
 		  .then(scp => {
-		  	res.json(scp)
+		  	if (scp === null) {
+		  		res.json({id:'',numid:0,name:'***',level:'',content:'',watched:0})
+		  	} else {
+		  		res.json(scp)
+		  	}
+		  	
 		  })
 		  .catch(err => {
 		  	res.json(err)
@@ -55,7 +61,7 @@ router.get('/scp/:id', (req, res) => {
 
 // 获取项目列表 (所有)
 router.get('/list', (req, res) => {
-	Scp.find({},['id', 'name'])
+	Scp.find({},['id', 'name', 'numid'])
 		 .then(scp => {
 		 	res.json(scp);
 		 })

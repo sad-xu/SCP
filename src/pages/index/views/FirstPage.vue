@@ -1,9 +1,9 @@
 <template lang="html">
 	<div>
-		<my-nav navName="SCP基金会"></my-nav>
+		<my-nav navName="SCP资料库"></my-nav>
 		<!-- 项目列表 -->
 		<mu-list>
-			<mu-list-item v-for="scp of scps" :key="scp.id" :title="scp.name" @click="showDetail(scp.id)"></mu-list-item>
+			<mu-list-item v-for="scp of scps" :key="scp.id" :title="scp.name" @click="showDetail(scp.numid)"></mu-list-item>
 		</mu-list>
 	</div>
 </template>
@@ -15,15 +15,24 @@ export default {
 	components: {
 		'my-nav': nav
 	},
+	created() {
+		this.$http.get('/api/list')
+				.then(res => {
+					this.scps = res.data;
+				})
+				.catch(err => {
+					console.log(err);
+				})
+	},
 	data() {
 		return {
-			scps: [{id:'001',name:'scp-001',level:'safe'},{id:'002',name:'scp-002',level:'killer'}]
+			scps: []
 		}
 	},
 	methods: {
 		// 跳转到详情页
-		showDetail(id) {
-			this.$router.push(`/scp/${id}`)
+		showDetail(numid) {
+			this.$router.push(`/scp/${numid}`)
 		},
 		// 随便看看
 		showRenderDetail() {
