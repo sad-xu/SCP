@@ -7,7 +7,9 @@
 			</div>
 			<mu-flat-button class="add-button" icon="add" label="新增" primary backgroundColor="#2ee2b9" @click="addScp"/>
 			<mu-list>
-				<mu-list-item v-for="item in scpList" :title="item.id + ' ' + item.name" :key="item.id" @click="setIdChosed(item.numid)"></mu-list-item>
+				<mu-list-item v-for="list of lists" :key="list.from" :title="list.name"  :open="list.open" @click="getList(list)">
+				<mu-list-item v-for="scp of list.scps" :key="scp.id" :title="scp.id + ' - ' + scp.name" slot="nested" @click="setIdChosed(scp)"></mu-list-item>
+			</mu-list-item>
 			</mu-list>
 			<mu-raised-button class="logout-button" label="退出登录" icon="cancel" backgroundColor="blueGrey" @click="logout()"/>
 		</div>
@@ -57,7 +59,13 @@ export default {
 			scpList: [],
 			idChosed: 0,
 			userName: '',
-			status: 1
+			status: 1,
+			showList: false,  // 初始时是否展示子项
+			lists: [
+								{from: 1, to: 50, name: 'SCP 1 ~ 50', scps: [], open: false},
+								{from: 51, to: 100, name: 'SCP 51 ~ 100', scps: [], open: false},
+								{from: 101, to: 150, name: 'SCP 101 ~ 150', scps: [], open: false}
+							] 
 		}
 	},
 	watch: {
@@ -74,14 +82,33 @@ export default {
 		}
 	},
 	methods: {
+		getList(list) {  // 获取子列表
+			if (list.scps.length) {
+				list.open = !list.open;
+				return;
+			} else {
+				this.$http.get('/api/list', {
+										params: {
+											from: list.from,
+											to: list.to
+										}
+									})
+									.then(res => {
+										list.scps = res.data;
+										list.open = true;
+									})
+									.catch(err => {
+										console.log(err);
+									})
+			}
+		},
 		// 点击增加按钮
 		addScp: function() {
 			this.idChosed = 0;
 		},
 		// 点击列表各项
-		setIdChosed: function(val) {
-			this.idChosed = val;
-			console.log('setid' + typeof val);
+		setIdChosed: function(scp) {
+			this.idChosed = scp.numid;
 		},
 		// 刷新
 		refresh: function() {

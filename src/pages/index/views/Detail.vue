@@ -15,6 +15,7 @@
 import marked from 'marked'
 
 export default {
+	name: 'detail',
 	created() {
 		this.getScp(this.$route.params.numid);
 	},
@@ -62,6 +63,10 @@ export default {
 		margin: 0;
 		font-size: 20px;
 		text-align: center;
+	}
+
+	.detail-content {
+		padding: 0 5px 0;
 	}
 
 </style>

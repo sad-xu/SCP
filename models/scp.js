@@ -5,7 +5,7 @@ const scpSchema = mongoose.Schema({
 	name : { type : String, required : true},
 	level : { type : String, required : true},
 	content : { type : String },
-	watched : { type : Number, default : 0},
+	watched : { type : Number, default : 1},
 	numid : { type : Number, required : true}
 });
 

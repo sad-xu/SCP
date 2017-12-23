@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 const favicon = require('serve-favicon')
 const bodyParser = require('body-parser')
 
+const path = require('path')
+
 const index = require('./router/index')
 const api = require('./router/api')
 
@@ -22,11 +24,13 @@ app.use(bodyParser.urlencoded({ extended : true }));
 app.use(favicon(__dirname + '/src/pages/index/assets/favicon.ico'));
 
 // 设置静态路径
+//app.use(express.static(path.join(__dirname, 'dist')));
 app.use(express.static('dist'));
 
 // 后端路由
 app.use('/', index);
 app.use('/api', api);
+
 
 
 app.listen(3000, () => {

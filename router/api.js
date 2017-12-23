@@ -4,6 +4,7 @@ const Admin = require('../models/admin')
 
 const router = express.Router()
 
+
 /*
 // 增加
 router.post('/addscp', (req, res) => {
@@ -45,29 +46,42 @@ router.delete('/deletescp/:numid', (req, res) => {
 
 // 根据id获取具体信息
 router.get('/scp/:numid', (req, res) => {
-	Scp.findOne({numid: req.params.numid})
-		  .then(scp => {
-		  	if (scp === null) {
-		  		res.json({id:'',numid:0,name:'***',level:'',content:'',watched:0})
-		  	} else {
-		  		res.json(scp)
-		  	}
-		  	
-		  })
-		  .catch(err => {
-		  	res.json(err)
-		  })
+	let query = Scp.where({numid: req.params.numid});
+			query.update({$inc: {watched: 1}})
+				.then(data => {
+					if (data.ok) {
+						query.findOne()
+						  .then(scp => {
+						  	if (scp === null) {
+						  		res.json({id:'',numid:0,name:'***',level:'',content:'',watched:0})
+						  	} else {
+						  		res.json(scp);
+						  	}	
+						  })
+						  .catch(err => {
+						  	res.json(err);
+						  })
+					}
+				})
+				.catch(err => {
+					res.json(err);
+				})	
 });
 
-// 获取项目列表 (所有)
+// 获取项目列表 (a ~ b)
 router.get('/list', (req, res) => {
-	Scp.find({},['id', 'name', 'numid'])
-		 .then(scp => {
+	let from = req.query.from,
+			to = req.query.to;
+
+	Scp.find({}, ['id', 'name', 'numid', 'watched'])
+			.where('numid').gte(from).lte(to)
+			.sort({'numid':1})
+		.then(scp => {
 		 	res.json(scp);
-		 })
-		 .catch(err => {
+		})
+		.catch(err => {
 		 	res.json(err);
-		 })
+		})
 })
 
 

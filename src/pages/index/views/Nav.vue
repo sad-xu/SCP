@@ -3,7 +3,10 @@
 		<!-- 上方标题栏 -->
 		<mu-appbar class="nav-bar">
 			<h1 class="nav-name" slot="default">{{navName}}</h1>
-			<mu-icon-button class="nav-menu" icon="menu" slot="left" @click="toggle()"/>
+			<mu-icon-button  icon="menu" slot="left" @click="toggle()"/>
+			<mu-icon-button class="githun-icon"  href="https://github.com/sad-xu/SCP" slot="right">
+      	<img style="width:24px;height:24px;" src="../assets/GitHub-Mark-light-32px.png"/>
+    	</mu-icon-button>
 		</mu-appbar>
 		<!-- 左侧抽屉栏 -->
 		<mu-drawer width="35%" :open="open" :docked="docked" @close="toggle()">
@@ -68,4 +71,5 @@ export default {
 		font-size: 20px;
 		text-align: center;
 	}
+
 </style>

@@ -3,8 +3,14 @@
 		<my-nav navName="SCP资料库"></my-nav>
 		<!-- 项目列表 -->
 		<mu-list>
-			<mu-list-item v-for="scp of scps" :key="scp.id" :title="scp.name" @click="showDetail(scp.numid)"></mu-list-item>
-		</mu-list>
+			<mu-list-item v-for="list of lists" :key="list.from" :title="list.name"  :open="list.open" @click="getList(list)">
+				<mu-list-item v-for="scp of list.scps" :key="scp.id" :title="scp.id + ' - ' +scp.name" slot="nested" @click="showDetail(scp)">
+					<span class="watched-num">{{scp.watched}}</span>
+					<mu-icon class="eye-icon" slot="right" value="remove_red_eye"/>
+					
+				</mu-list-item>
+			</mu-list-item>
+	</mu-list>
 	</div>
 </template>
 
@@ -16,23 +22,42 @@ export default {
 		'my-nav': nav
 	},
 	created() {
-		this.$http.get('/api/list')
-				.then(res => {
-					this.scps = res.data;
-				})
-				.catch(err => {
-					console.log(err);
-				})
+
 	},
 	data() {
 		return {
-			scps: []
+			showList: false,  // 初始时是否展示子项
+			lists: [
+								{from: 1, to: 10, name: 'SCP 1 ~ 10', scps: [], open: false},
+								{from: 11, to: 20, name: 'SCP 11 ~ 20', scps: [], open: false},
+							] 
 		}
 	},
 	methods: {
+		getList(list) {  // 获取子列表
+			if (list.scps.length) {
+				list.open = !list.open;
+				return;
+			} else {
+				this.$http.get('/api/list', {
+										params: {
+											from: list.from,
+											to: list.to
+										}
+									})
+									.then(res => {
+										list.scps = res.data;
+										list.open = true;
+									})
+									.catch(err => {
+										console.log(err);
+									})
+			}
+		},
 		// 跳转到详情页
-		showDetail(numid) {
-			this.$router.push(`/scp/${numid}`)
+		showDetail(scp) {
+			scp.watched++;
+			this.$router.push(`/scp/${scp.numid}`)
 		},
 		// 随便看看
 		showRenderDetail() {
@@ -48,5 +73,15 @@ export default {
 </script>
 
 <style lang="css">
-	
+	.eye-icon {
+		position: relative;
+		right: 25px;
+	}
+
+	.watched-num {
+		position: absolute;
+		right: 20px;
+		top: 10px;
+		color: #989898;
+	}
 </style>

@@ -36,6 +36,7 @@
 <script>
 import debounce from 'lodash.debounce'
 import marked from 'marked'
+import renderer from '../assets/myMarked.js'
 
 export default {
 	mounted() {
@@ -58,7 +59,7 @@ export default {
 	computed: {
 		// 监测到input变化，即解析markdown
 		compiledMarkdown: function() {
-			return marked(this.scpData.content, {sanitize: true});
+			return marked(this.scpData.content, {sanitize: true, renderer: renderer});
 		}
 	},
 	watch: {
