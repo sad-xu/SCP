@@ -30,6 +30,9 @@ export default {
 			lists: [
 								{from: 1, to: 10, name: 'SCP 1 ~ 10', scps: [], open: false},
 								{from: 11, to: 20, name: 'SCP 11 ~ 20', scps: [], open: false},
+								{from: 21, to: 30, name: 'SCP 21 ~ 30', scps: [], open: false},
+								{from: 31, to: 40, name: 'SCP 31 ~ 40', scps: [], open: false},
+								{from: 41, to: 50, name: 'SCP 41 ~ 50', scps: [], open: false}
 							] 
 		}
 	},

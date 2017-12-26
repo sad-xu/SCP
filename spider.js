@@ -3,10 +3,12 @@ const cheerio = require('cheerio')
 const mongoose = require('mongoose')
 
 /*********************** 数据库相关 ****************************/
-mongoose.connect('mongodb://localhost:27017/SCP', {
+mongoose.connect('mongodb://xhc:151136@localhost:27017/SCP?authSource=admin', {
 	useMongoClient: true
 });
 mongoose.Promise = global.Promise;
+
+console.log('connect success!');
 
 const scpSchema = mongoose.Schema({
 	id : { type : String, required : true },
@@ -34,7 +36,7 @@ function putData(obj) {    // 放入数据库
 				new: true,
 				upsert: true
 			})
-		.then(scp => console.log(scp))
+		.then(scp => console.log(scp.id + 'save ok!'))
 		.catch(err => console.log(err))
 } 
 /**********************************************************/
@@ -128,6 +130,6 @@ function fromAtoBspaceC(a,b,c) {
 
 
 function start() {
-	setTimeout(function(){fromAtoBspaceC(6, 10, 5000)}, 1000);
+	setTimeout(function(){fromAtoBspaceC(2, 50, 5000)}, 1000);
 }
 start();

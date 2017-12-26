@@ -1,14 +1,22 @@
+const https = require('https')
+const http = require('http')
+const fs = require('fs')
 const express = require('express')
 const mongoose = require('mongoose')
 const favicon = require('serve-favicon')
 const bodyParser = require('body-parser')
-
 const path = require('path')
 
 const index = require('./router/index')
 const api = require('./router/api')
 
-mongoose.connect('mongodb://localhost:27017/SCP', {
+var httpsOptions = {
+	key: fs.readFileSync('./https/214400255360454.key', 'utf8'),
+	cert: fs.readFileSync('./https/214400255360454.pem', 'utf8')
+};
+
+
+mongoose.connect('mongodb://xhc:151136@localhost:27017/SCP?authSource=admin', {
 	useMongoClient: true
 });
 mongoose.Promise = global.Promise;
@@ -32,7 +40,9 @@ app.use('/', index);
 app.use('/api', api);
 
 
-
-app.listen(3000, () => {
-	console.log('listening port 3000');
-});
+http.createServer(app).listen(80, function() {
+	console.log('listening port 80')
+})
+https.createServer(httpsOptions, app).listen(443, function() {
+	console.log('listening port 443')
+})
