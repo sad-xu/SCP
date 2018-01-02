@@ -24,6 +24,18 @@ mongoose.Promise = global.Promise;
 
 const app = express();
 
+
+// http -> https
+app.use(function(req, res, next) {
+	// http://www.expressjs.com.cn/api.html#req.protocol 	
+	if (req.protocol === 'http') {
+		res.redirect(301, 'https:/' + '/sadxu.top' + req.url);
+		return;
+	}
+	next();
+})
+
+
 // 解析post请求
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true }));
@@ -43,6 +55,7 @@ app.use('/api', api);
 http.createServer(app).listen(80, function() {
 	console.log('listening port 80')
 })
+
 https.createServer(httpsOptions, app).listen(443, function() {
 	console.log('listening port 443')
 })
