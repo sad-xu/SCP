@@ -7,7 +7,6 @@
 				<mu-list-item v-for="scp of list.scps" :key="scp.id" :title="scp.id + ' - ' +scp.name" slot="nested" @click="showDetail(scp)">
 					<span class="watched-num">{{scp.watched}}</span>
 					<mu-icon class="eye-icon" slot="right" value="remove_red_eye"/>
-					
 				</mu-list-item>
 			</mu-list-item>
 	</mu-list>
@@ -22,7 +21,7 @@ export default {
 		'my-nav': nav
 	},
 	created() {
-
+		
 	},
 	data() {
 		return {
@@ -75,7 +74,7 @@ export default {
 }	
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 	.eye-icon {
 		position: relative;
 		right: 25px;

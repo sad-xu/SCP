@@ -1,6 +1,7 @@
 const express = require('express')
 const Scp = require('../models/scp')
 const Admin = require('../models/admin')
+const User = require('../models/user')
 
 const router = express.Router()
 
@@ -85,7 +86,7 @@ router.get('/list', (req, res) => {
 })
 
 
-/********* 登陆页接口 ***********/
+/********* 后台登陆页接口 ***********/
 router.post('/login', (req, res) => {
 	Admin.findOne({name: req.body.name})
 				.then(admin => {
@@ -99,5 +100,65 @@ router.post('/login', (req, res) => {
 					res.json({err:1})
 				})
 })
+
+
+/************* 移动端登陆接口  **************/
+router.post('/user/login', (req, res) => {  // 登陆
+	console.log(req.body)
+	User.findOne({myname: req.body.myname})
+			.then(user => {
+				if (user.mypassword) {
+					if (user.mypassword === req.body.mypassword)
+					res.json(user);
+				} else {
+					res.json({err:1})
+				}
+			})
+			.catch(err => {
+				console.log(err)
+				res.json(err);
+			})
+});
+
+router.post('/user/signup', (req, res) => {  // 注册
+	// req.body.mypassword 防止用户名重复
+	// req.body.email  防止Email重复
+	// 添加
+	User.create({myname: req.body.myname,mypassword: req.body.mypassword, email: req.body.email})
+			.then(user => {
+				res.json(user)
+			})
+			.catch(err => {
+				res.json(err)
+			})
+});
+/****************************************************/
+
+/***************** 收藏接口 ***********************/
+router.post('/user/setcollect', (req, res) => {  // 修改收藏数据
+	User.updateOne(
+		{ myname: req.body.myname },
+		{ collect: req.body.collect})
+			.then(user => {
+				res.json(user)
+			})
+			.catch(err => {
+				res.json(err)
+			})
+})
+
+router.get('/user/getcollect', (req, res) => {  // 获取收藏列表
+	let arr = req.query.arr.split(',');
+	Scp.find({numid:{$in:arr}}, ['id', 'name', 'numid', 'watched'])
+		.then(data => {
+			res.json(data)
+		})
+		.catch(err => {
+			res.json(err)
+		})
+})
+
+
+
 
 module.exports = router;

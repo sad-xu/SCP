@@ -15,16 +15,22 @@ var httpsOptions = {
 	cert: fs.readFileSync('./https/214400255360454.pem', 'utf8')
 };
 
-
+/*
 mongoose.connect('mongodb://xhc:151136@localhost:27017/SCP?authSource=admin', {
 	useMongoClient: true
 });
+*/
+
+mongoose.connect('mongodb://localhost:27017/SCP', {
+	useMongoClient: true
+});
+
+
+
 mongoose.Promise = global.Promise;
-
-
 const app = express();
 
-
+/*
 // http -> https
 app.use(function(req, res, next) {
 	// http://www.expressjs.com.cn/api.html#req.protocol 	
@@ -34,14 +40,14 @@ app.use(function(req, res, next) {
 	}
 	next();
 })
-
+*/
 
 // 解析post请求
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true }));
 
 // 处理浏览器favicon请求
-app.use(favicon(__dirname + '/src/pages/index/assets/favicon.ico'));
+app.use(favicon(__dirname + '/static/favicon.ico'));
 
 // 设置静态路径
 //app.use(express.static(path.join(__dirname, 'dist')));
@@ -55,6 +61,7 @@ app.use('/api', api);
 http.createServer(app).listen(80, function() {
 	console.log('listening port 80')
 })
+
 
 https.createServer(httpsOptions, app).listen(443, function() {
 	console.log('listening port 443')

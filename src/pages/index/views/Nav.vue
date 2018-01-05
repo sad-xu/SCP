@@ -13,7 +13,7 @@
 			<mu-list @itemClick="toggle()">
 				<mu-list-item title="首页" @click="jumpTo('')"/>
 				<mu-list-item title="随便看看" @click="showRenderDetail()"/>
-				<mu-list-item title="我的收藏"/>
+				<mu-list-item title="我的收藏" @click="jumpTo('collect')"/>
 				<mu-list-item title="关于" @click="jumpTo('about')" />
 				<mu-list-item title="在线交流"/>
 			</mu-list>

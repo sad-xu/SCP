@@ -14,14 +14,14 @@ import '../../static/icon.css'
 Vue.config.productionTip = false
 
 Vue.use(MuseUI);
-Vue.prototype.$http = axios
+Vue.prototype.$http = axios;
 
 // 消除移动端点击延迟
 FastClick.attach(document.body)
 
 
 /* eslint-disable no-new */
-new Vue({
+var vm = new Vue({
   el: '#app',
   router,
   template: '<App/>',
