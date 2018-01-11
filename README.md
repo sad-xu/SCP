@@ -6,7 +6,7 @@
 
 ## 前端部分
 
-前端有两大部分：[移动端页面](sadxu.top)和[后台页](sadxu.top/houtai.html)。
+前端有两大部分：[移动端页面](https://sadxu.top)和[后台页](https://sadxu.top/houtai.html)。
 
 修改Vue-cli模板配置为多页面应用
 
@@ -84,7 +84,7 @@ mypassword 密码
 
 有两个页面：登陆页和操作页
 
-[sadxu.top/houtai.html](sadxu.top/houtai.html)
+[https://sadxu.top/houtai.html](https://sadxu.top/houtai.html)
 
 目前后台账号仅有一个 xhc  151136  无法增加删除修改
 
