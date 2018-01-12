@@ -4,7 +4,7 @@
 
 做之前先参考了[https://github.com/xrr2016/vue-express-mongodb](https://github.com/xrr2016/vue-express-mongodb) 学习如何前后端分离
 
-## 前端部分
+## 前端部分 (为确保能正常使用，请在PC端或者微信里打开)
 
 前端有两大部分：[移动端页面](https://sadxu.top)和[后台页](https://sadxu.top/houtai.html)。
 
@@ -52,7 +52,7 @@
 
 ![关于](/readmesrc/about.png)
 
-##### 在线交流
+##### 在线交流（未做兼容，所以在部分浏览器中无法正常使用）
 
 时间原因还没做，不过之前做了一个socket聊天的demo练手，就用它暂时代替：[http://sadxu.top:3000/chat](http://sadxu.top:3000/chat) 前端使用原生js，后端express，webpack打包
 
